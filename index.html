@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <title>Video Syncer</title>
+    <meta charset="utf-8" />
+    <meta name='author' content='Jimmy Ho' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--CSS Links-->
+    <link href='/public/css/main.css' rel='stylesheet' type='text/css' />
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <section>
+            <ul id="messages"></ul>
+            <form action="">
+                <input id="m" autocomplete="off" /><button>Send</button>
+            </form>
+        </section>
+    </main>
+    <!--Socket.io Scripts-->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        $(function () {
+            var socket = io();
+            $('form').submit(function (e) {
+                e.preventDefault(); // prevents page reloading
+                socket.emit('chat message', $('#m').val());
+                $('#m').val('');
+                return false;
+            });
+            socket.on('chat message', function (msg) {
+                $('#messages').append($('<li>').text(msg));
+            });
+        });
+    </script>
+</body>
+
+</html>
