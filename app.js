@@ -32,7 +32,3 @@ io.on('connection', function (socket) {
     });
 
 });
-
-io.emit('some event', {
-    for: 'everyone'
-});
