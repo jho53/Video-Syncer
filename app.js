@@ -11,6 +11,7 @@ var io = require('socket.io')(http);
 http.listen(port, () => {
     console.log(`Listening on: ${port}`);
 });
+
 app.use(express.static(path.join(__dirname, '/public')));
 app.use('/', express.static(__dirname));
 
@@ -19,16 +20,18 @@ app.get('/', function (req, res) {
 });
 
 //Socket.io Section
+var userCount = 0;
 io.on('connection', function (socket) {
-
-    console.log('a user connected');
-
+    userCount++;
+    console.log(`An user connected, total users = ${userCount}`);
     socket.on('chat message', function (msg) {
         io.emit('chat message', msg);
     });
-
+    socket.on('playerEvent', function (msg) {
+        console.log(msg);
+    })
     socket.on('disconnect', function () {
-        console.log('user disconnected');
+        userCount--;
+        console.log(`An user disconnected, total users = ${userCount}`);
     });
-
 });

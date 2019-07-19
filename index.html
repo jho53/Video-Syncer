@@ -17,50 +17,35 @@
 <body>
     <main>
         <div id='container'>
-            <section id='vidboard'>
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/B9mEIZ3qMTw" frameborder="0"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-                <div>
+            <div id='vidboard'>
+                <div id='ytplayer'></div>
+                <div id='ctrl-container'>
                     <div id='btn-container'>
-                        <a href='#' class="fas fa-play"></a>
-                        <a href='#' class="fas fa-pause"></a>
+                        <a id='play-btn' name='play-btn' class="fas fa-play"></a>
+                        <a id='pause-btn' name='pause-btn' class="fas fa-pause"></a>
+                        <a id='ff-btn' name='ff-btn' class="fas fa-fast-forward"></a>
                     </div>
-                    <div class="slide-container">
-                        <input type="range" min="1" max="100" value="50" class="slider" id="vidplayer">
-                        <p>Value: <span id="vidtime"></span></p>
+                    <div id="slider-container">
+                        <input type="range" min="1" max="100" value="50" class="slider" id="vSlider">
+                        <p style='display: inline'>Time: <span id="vTime"></span></p>
                     </div>
                 </div>
-            </section>
-            <section id='msgboard'>
+            </div>
+            <div id='msgboard'>
                 <ul id="messages"></ul>
                 <form action="#">
                     <input id="chatinput" autocomplete="off" placeholder="Press enter to send..." />
                 </form>
-            </section>
+            </div>
         </div>
     </main>
-    <!--Slider Script-->
-    <script src='public/js/slider.js'></script>
     <!--Socket.io Scripts-->
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-        $(function () {
-            var socket = io();
-            var container = document.getElementById('messages');
-
-            $('form').submit(function (e) {
-                e.preventDefault(); // prevents page reloading
-                socket.emit('chat message', $('#chatinput').val());
-                $('#chatinput').val('');
-            });
-            socket.on('chat message', function (msg) {
-                $('#messages').append($('<li>').text(msg));
-                container.scrollTop = container.scrollHeight;
-            });
-        });
-    </script>
+    <!--Chat Script-->
+    <script src='public/js/chat.js'></script>
+    <!--Video Control Script-->
+    <script src='public/js/control.js'></script>
 </body>
 
 </html>
